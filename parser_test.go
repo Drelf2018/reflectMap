@@ -1,12 +1,11 @@
-# reflectMap
- 
-反射字典，以及更好的反射。
+package reflectMap_test
 
-原项目 [Reflect](https://github.com/Drelf2018/TypeGo/tree/main/Reflect)
+import (
+	"testing"
 
-### 使用
+	"github.com/Drelf2018/reflectMap"
+)
 
-```go
 type Attachment struct {
 	CollegeName string
 	Name        string `xpath:"./a//text()"`
@@ -22,18 +21,13 @@ type College struct {
 
 func TestTagParser(t *testing.T) {
 	m := reflectMap.NewTagParser("xpath", func(s string) string { return s })
+	// .SetConverter(func(fieldType reflect.Type) reflect.Type {
+	// 	if fieldType.Kind() == reflect.Slice {
+	// 		return fieldType.Elem()
+	// 	}
+	// 	return fieldType
+	// })
 	for _, data := range m.Get(&College{}) {
 		t.Log(data)
 	}
 }
-```
-
-#### 控制台
-
-```
-parser_test.go:31: Data#0(./td[1]//span/text())
-parser_test.go:31: Data#1(./td[2]//a/@href)
-parser_test.go:31: Data#3(//td//span[a] | //form//li[a] | //ul[@style='list-style-type:none;']//li[a] | //ul[@class='attach']//li[a])
-```
-
-<span style="color: grey">写给自己用的，如果你真的想用可以直接在 issues 问我咋用</span>
